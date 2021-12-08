@@ -1,3 +1,4 @@
+import Day8.SegmentDecoder
 import binarydecoder.BinaryDecoder
 import crabs.ExponentialCrabCommander
 import crabs.LinearCrabCommander
@@ -44,4 +45,8 @@ fun main(args: Array<String>) {
     println("Day 7 Part 2")
     val exponentialCrabCommander = ExponentialCrabCommander(crabInput)
     exponentialCrabCommander.alignCrabs()
+
+    println("Day 8")
+    val segmentDecoder = SegmentDecoder("src/main/kotlin/Day8/input.txt")
+    segmentDecoder.countDecipherableSegments()
 }
