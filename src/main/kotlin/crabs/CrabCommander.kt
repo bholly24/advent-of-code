@@ -23,7 +23,7 @@ abstract class CrabCommander(crabPositions: List<Int>) {
         var newSquare = squareIncrementer(startPosition)
         var newCost = evaluateFuelCost(newSquare)
         while(newCost < leastFuelSpent) {
-            newSquare += 1
+            newSquare = squareIncrementer(newSquare)
             newCost = evaluateFuelCost(newSquare)
             if (newCost < leastFuelSpent) {
                 leastFuelSpent = newCost
