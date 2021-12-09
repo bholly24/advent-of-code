@@ -49,4 +49,7 @@ fun main(args: Array<String>) {
     println("Day 8")
     val segmentDecoder = SegmentDecoder("src/main/kotlin/Day8/input.txt")
     segmentDecoder.countDecipherableSegments()
+
+    println("Day 8 Part 2")
+    segmentDecoder.decodeAndAddSegments()
 }

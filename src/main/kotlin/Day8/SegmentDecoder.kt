@@ -17,7 +17,9 @@ class SegmentDecoder(private val filePath: String) {
         val lineList = mutableListOf<List<String>>()
 
         inputStream.bufferedReader().forEachLine {
-            lineList.add(it.split("|")[delimiterIndexToKeep].trim().split(" "))
+            lineList.add(
+                it.split("|")[delimiterIndexToKeep].trim().split(" ")
+                    .map { it.toCharArray().sorted().joinToString("") })
         }
 
         return lineList
@@ -31,36 +33,84 @@ class SegmentDecoder(private val filePath: String) {
         return decipherableSegments
     }
 
-    fun decodeLine(inputLine: List<String>, outputLine: List<String>): Int {
-        val lineMap = mutableMapOf<String, Int>()
-
-        inputLine.forEach {
-            when (it.length) {
-                2 -> lineMap[it] = 1
-                3 -> lineMap[it] = 7
-                4 -> lineMap[it] = 4
-                7 -> lineMap[it] = 8
-            }
-        }
-
-        val digitMap = mutableMapOf<Char, SegmentPositions>()
-
-        if (numbersOccur(lineMap, 1, 7)) {
-            digitMap[fillInSegmentPositions(lineMap, 1, 7)] = SegmentPositions.TOP
-        }
-
-        var total = 0
-        outputLine.forEach { it.forEach { segment -> total += lineMap.getOrDefault(it, 0) } }
-
-        return total
-    }
-
     fun decodeAndAddSegments(): Int {
         var total = 0
         for (index in inputLines.indices) {
             total += decodeLine(inputLines[index], outputLines[index])
         }
+        println("Total segment sum after decoding: $total")
         return total
+    }
+
+    private fun decodeLine(inputLine: List<String>, outputLine: List<String>): Int {
+        val lineMap = mutableMapOf<String, Int>()
+
+        inputLine.forEach {
+            when (it.length) {
+                2 -> lineMap[it.toCharArray().sorted().joinToString("")] = 1
+                3 -> lineMap[it.toCharArray().sorted().joinToString("")] = 7
+                4 -> lineMap[it.toCharArray().sorted().joinToString("")] = 4
+                7 -> lineMap[it.toCharArray().sorted().joinToString("")] = 8
+            }
+        }
+
+        // Map to store relations needed for computation
+        val digitMap = mutableMapOf<SegmentPositions, Char>()
+
+        // Top can be determined by disjunct between 1 and 7
+        if (numbersOccur(lineMap, 1, 7)) {
+            digitMap[SegmentPositions.TOP] = fillInSegmentPositions(lineMap, 1, 7)
+        }
+
+        // 6 is the only six digit number that is missing bottom right
+        val oneCharArray = lineMap.entries.associate { (key, value) -> value to key }.getOrDefault(1, "").toCharArray()
+        val six = inputLine.filter { it.length == 6 && (!it.contains(oneCharArray[0]) || !it.contains(oneCharArray[1])) }[0]
+        lineMap[six] = 6
+
+        // 3 is the only 5 digit number with bottom right and top right segments
+        val three = inputLine.filter { it.length == 5 && it.contains(oneCharArray[0]) && it.contains(oneCharArray[1]) }[0]
+        lineMap[three] = 3
+
+        // middle segment is in nine and not zero. It is found in all 3 five digit numbers.
+        // while bottom segment left is not found in two and that is 0s unique char (relative to 9))
+        val zeroOrNine = inputLine.filter { it.length == 6 && !lineMap.keys.toList().contains(it) }
+
+        // Get the unique char for each string. 9s unique char is the middle, while zero's is bottom left
+        val zeroOrNineFirst = zeroOrNine[0].toCharArray().filter { !zeroOrNine[1].toCharArray().contains(it) }[0]
+        val zeroOrNineSecond = zeroOrNine[1].toCharArray().filter { !zeroOrNine[0].toCharArray().contains(it) }[0]
+
+        val fiveDigitNumbers = inputLine.filter { it.length == 5 }
+
+        var containedInAllThree = true
+        var i = 0
+        while (i < 3 && containedInAllThree) {
+            containedInAllThree = fiveDigitNumbers[i].contains(zeroOrNineFirst)
+            i += 1
+        }
+
+        if (containedInAllThree) {
+            digitMap[SegmentPositions.BOTTOM_LEFT] = zeroOrNineSecond
+            lineMap[zeroOrNine[0]] = 9
+            lineMap[zeroOrNine[1]] = 0
+        } else {
+            digitMap[SegmentPositions.BOTTOM_LEFT] = zeroOrNineFirst
+            lineMap[zeroOrNine[0].toCharArray().sorted().joinToString("")] = 0
+            lineMap[zeroOrNine[1].toCharArray().sorted().joinToString("")] = 9
+        }
+
+        // Two is the only five digit number that contains the bottom left segment
+        lineMap[fiveDigitNumbers.filter { it.contains(digitMap.getOrDefault(SegmentPositions.BOTTOM_LEFT, ' ')) }[0]] = 2
+
+        // Five is the only five digit number left
+        val five = fiveDigitNumbers.filter { !lineMap.keys.toList().contains(it) }[0]
+        lineMap[five] = 5
+
+        var total = ""
+        outputLine.forEach { it ->
+            total += lineMap.getOrDefault(it.toCharArray().sorted().joinToString(""), 0).toString()
+        }
+
+        return total.toInt()
     }
 
     private fun segmentIsDecipherable(segment: String): Boolean {
@@ -86,100 +136,21 @@ class SegmentDecoder(private val filePath: String) {
         val knownNumbers = knownMap.values.toList()
         return knownNumbers.contains(numberOne) && knownNumbers.contains(numberTwo)
     }
+
+    private fun getCharInAllNumbersExcept(inputLine: List<String>, knownNumbers: Map<String, Int>, numbersToExclude: List<Int>): Char {
+        var allChars = mutableListOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g')
+        inputLine.forEach {
+            if (!numbersToExclude.contains(knownNumbers.getOrDefault(it, 0))) {
+                val chars = it.toCharArray()
+                allChars = allChars.filter { chars.contains(it) } as MutableList<Char>
+            }
+        }
+
+        return allChars[0]
+    }
 }
+
 
 enum class SegmentPositions {
     TOP, BOTTOM, TOP_RIGHT, TOP_LEFT, MIDDLE, BOTTOM_RIGHT, BOTTOM_LEFT,
-}
-
-abstract class SegmentNumber {
-    abstract val segments: Array<SegmentPositions>
-    val numberSegments: Int = segments.size
-}
-
-class One : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.BOTTOM_RIGHT,
-        SegmentPositions.TOP_RIGHT
-    )
-}
-
-class Two : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.TOP,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.MIDDLE,
-        SegmentPositions.BOTTOM_LEFT,
-        SegmentPositions.BOTTOM
-    )
-}
-
-class Three : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.BOTTOM_RIGHT,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.MIDDLE,
-        SegmentPositions.BOTTOM
-    )
-}
-
-class Four : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.BOTTOM_RIGHT,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.TOP_LEFT,
-        SegmentPositions.MIDDLE
-    )
-}
-
-class Five : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.TOP,
-        SegmentPositions.TOP_LEFT,
-        SegmentPositions.MIDDLE,
-        SegmentPositions.BOTTOM_RIGHT,
-        SegmentPositions.BOTTOM
-    )
-}
-
-class Six : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.TOP,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.MIDDLE,
-        SegmentPositions.BOTTOM_RIGHT,
-        SegmentPositions.BOTTOM,
-        SegmentPositions.BOTTOM_LEFT
-    )
-}
-
-class Seven : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.TOP,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.BOTTOM_RIGHT
-    )
-}
-
-class Eight : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.TOP,
-        SegmentPositions.TOP_LEFT,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.MIDDLE,
-        SegmentPositions.BOTTOM_RIGHT,
-        SegmentPositions.BOTTOM,
-        SegmentPositions.BOTTOM_LEFT
-    )
-}
-
-
-class Nine : SegmentNumber() {
-    override val segments = arrayOf(
-        SegmentPositions.TOP,
-        SegmentPositions.TOP_LEFT,
-        SegmentPositions.TOP_RIGHT,
-        SegmentPositions.MIDDLE,
-        SegmentPositions.BOTTOM_RIGHT
-    )
 }
