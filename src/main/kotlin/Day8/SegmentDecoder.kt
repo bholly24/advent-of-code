@@ -57,11 +57,6 @@ class SegmentDecoder(private val filePath: String) {
         // Map to store relations needed for computation
         val digitMap = mutableMapOf<SegmentPositions, Char>()
 
-        // Top can be determined by disjunct between 1 and 7
-        if (numbersOccur(lineMap, 1, 7)) {
-            digitMap[SegmentPositions.TOP] = fillInSegmentPositions(lineMap, 1, 7)
-        }
-
         // 6 is the only six digit number that is missing bottom right
         val oneCharArray = lineMap.entries.associate { (key, value) -> value to key }.getOrDefault(1, "").toCharArray()
         val six = inputLine.filter { it.length == 6 && (!it.contains(oneCharArray[0]) || !it.contains(oneCharArray[1])) }[0]
@@ -106,7 +101,7 @@ class SegmentDecoder(private val filePath: String) {
         lineMap[five] = 5
 
         var total = ""
-        outputLine.forEach { it ->
+        outputLine.forEach {
             total += lineMap.getOrDefault(it.toCharArray().sorted().joinToString(""), 0).toString()
         }
 
@@ -116,40 +111,7 @@ class SegmentDecoder(private val filePath: String) {
     private fun segmentIsDecipherable(segment: String): Boolean {
         return arrayOf(2, 3, 4, 7).contains(segment.length)
     }
-
-    private fun findCharDifference(segment: String, segmentTwo: String): Char {
-        val biggerSegment = if (segment.length > segmentTwo.length) segment else segmentTwo
-        val smallerSegment = if (segment.length < segmentTwo.length) segment else segmentTwo
-
-        for (i in biggerSegment.indices) {
-            if (!smallerSegment.contains(biggerSegment[i])) return biggerSegment[i]
-        }
-        return ' '
-    }
-
-    private fun fillInSegmentPositions(knownMap: Map<String, Int>, numberOne: Int, numberTwo: Int): Char {
-        val knownNumbers = knownMap.entries.associate { (key, value) -> value to key }
-        return findCharDifference(knownNumbers.getOrDefault(numberOne, ""), knownNumbers.getOrDefault(numberTwo, ""))
-    }
-
-    private fun numbersOccur(knownMap: Map<String, Int>, numberOne: Int, numberTwo: Int): Boolean {
-        val knownNumbers = knownMap.values.toList()
-        return knownNumbers.contains(numberOne) && knownNumbers.contains(numberTwo)
-    }
-
-    private fun getCharInAllNumbersExcept(inputLine: List<String>, knownNumbers: Map<String, Int>, numbersToExclude: List<Int>): Char {
-        var allChars = mutableListOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g')
-        inputLine.forEach {
-            if (!numbersToExclude.contains(knownNumbers.getOrDefault(it, 0))) {
-                val chars = it.toCharArray()
-                allChars = allChars.filter { chars.contains(it) } as MutableList<Char>
-            }
-        }
-
-        return allChars[0]
-    }
 }
-
 
 enum class SegmentPositions {
     TOP, BOTTOM, TOP_RIGHT, TOP_LEFT, MIDDLE, BOTTOM_RIGHT, BOTTOM_LEFT,
