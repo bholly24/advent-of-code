@@ -54,9 +54,6 @@ class SegmentDecoder(private val filePath: String) {
             }
         }
 
-        // Map to store relations needed for computation
-        val digitMap = mutableMapOf<SegmentPositions, Char>()
-
         // 6 is the only six digit number that is missing bottom right
         val oneCharArray = lineMap.entries.associate { (key, value) -> value to key }.getOrDefault(1, "").toCharArray()
         val six = inputLine.filter { it.length == 6 && (!it.contains(oneCharArray[0]) || !it.contains(oneCharArray[1])) }[0]
@@ -83,18 +80,20 @@ class SegmentDecoder(private val filePath: String) {
             i += 1
         }
 
+        val bottomLeftSegment: Char
+
         if (containedInAllThree) {
-            digitMap[SegmentPositions.BOTTOM_LEFT] = zeroOrNineSecond
+            bottomLeftSegment = zeroOrNineSecond
             lineMap[zeroOrNine[0]] = 9
             lineMap[zeroOrNine[1]] = 0
         } else {
-            digitMap[SegmentPositions.BOTTOM_LEFT] = zeroOrNineFirst
+            bottomLeftSegment = zeroOrNineFirst
             lineMap[zeroOrNine[0].toCharArray().sorted().joinToString("")] = 0
             lineMap[zeroOrNine[1].toCharArray().sorted().joinToString("")] = 9
         }
 
         // Two is the only five digit number that contains the bottom left segment
-        lineMap[fiveDigitNumbers.filter { it.contains(digitMap.getOrDefault(SegmentPositions.BOTTOM_LEFT, ' ')) }[0]] = 2
+        lineMap[fiveDigitNumbers.filter { it.contains(bottomLeftSegment) }[0]] = 2
 
         // Five is the only five digit number left
         val five = fiveDigitNumbers.filter { !lineMap.keys.toList().contains(it) }[0]
@@ -111,8 +110,4 @@ class SegmentDecoder(private val filePath: String) {
     private fun segmentIsDecipherable(segment: String): Boolean {
         return arrayOf(2, 3, 4, 7).contains(segment.length)
     }
-}
-
-enum class SegmentPositions {
-    TOP, BOTTOM, TOP_RIGHT, TOP_LEFT, MIDDLE, BOTTOM_RIGHT, BOTTOM_LEFT,
 }
