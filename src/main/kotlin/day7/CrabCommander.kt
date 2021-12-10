@@ -1,4 +1,4 @@
-package crabs
+package day7
 
 import kotlin.properties.Delegates
 

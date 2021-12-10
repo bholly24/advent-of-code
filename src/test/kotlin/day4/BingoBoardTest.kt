@@ -1,8 +1,4 @@
-package bingo
-
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+package day4
 
 internal class BingoBoardTest {
 

@@ -1,4 +1,4 @@
-package lanternfish
+package day6
 
 import java.io.File
 import java.io.InputStream
@@ -41,9 +41,6 @@ class Lanternfish(lanternfishInput: Array<Int>) {
         for (add in 0 until fishToAdd) {
             lanternfish.add(Fish(newFishAge))
         }
-
-        print("Current day $currentDay: ")
-        printOutFish()
     }
 
     private fun printOutFish() {

@@ -1,4 +1,4 @@
-package binarydecoder
+package day3
 
 import java.io.File
 import java.io.InputStream

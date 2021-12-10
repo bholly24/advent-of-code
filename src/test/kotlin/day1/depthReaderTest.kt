@@ -1,4 +1,4 @@
-import depthreader.DepthReader
+import day1.DepthReader
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -48,9 +48,5 @@ internal class DepthReaderTest {
             reader.countRollingDepthIncreases(listOf(9, 9, 10, 13)),
             1
         )
-    }
-
-    fun assertDepthReadings(depthList: List<Int>, expectedCount: Int) {
-
     }
 }

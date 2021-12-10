@@ -1,4 +1,4 @@
-package Day8
+package day8
 
 import org.junit.jupiter.api.Test
 

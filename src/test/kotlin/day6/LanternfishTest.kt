@@ -1,4 +1,4 @@
-package lanternfish
+package day6
 
 import org.junit.jupiter.api.Test
 
