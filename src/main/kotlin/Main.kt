@@ -6,6 +6,7 @@ import day1.DepthReader
 import day6.LanternMap
 import day6.Lanternfish
 import day6.readInLines
+import day9.LavaWalker
 
 fun main(args: Array<String>) {
     println("Day 1")
@@ -52,4 +53,11 @@ fun main(args: Array<String>) {
 
     println("Day 8 Part 2")
     segmentDecoder.decodeAndAddSegments()
+
+    println("Day 9")
+    val lavaWalker = LavaWalker("src/main/kotlin/day9/input.txt")
+    lavaWalker.findTotalRisk()
+
+    println("Day 8 Part 2")
+    lavaWalker.findBasinSizes()
 }
