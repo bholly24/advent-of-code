@@ -2,7 +2,9 @@ package printer
 
 object AdventPrinter {
     fun introduction() {
-        println("Advent of code entries ")
+        divider()
+        println("Advent of code entries for Brendan Holly")
+        println("Happy Holidays!")
     }
 
     fun skippedForNow(day: Int) {
@@ -21,6 +23,6 @@ object AdventPrinter {
     }
 
     private fun divider() {
-        println("------------------------------")
+        println("------------------------------------------------")
     }
 }

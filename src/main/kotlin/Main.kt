@@ -12,6 +12,7 @@ import day9.LavaWalker
 import printer.AdventPrinter
 
 fun main(args: Array<String>) {
+    AdventPrinter.introduction()
     AdventPrinter.partOne(1)
     val reader = DepthReader()
     val depthReadings = reader.readInFile("src/main/kotlin/day1/input.txt")
