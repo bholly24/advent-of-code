@@ -5,6 +5,7 @@ import day7.LinearCrabCommander
 import day1.DepthReader
 import day10.SyntaxAutoComplete
 import day10.SyntaxParser
+import day11.OctopusTracker
 import day6.LanternMap
 import day6.Lanternfish
 import day6.readInLines
@@ -77,4 +78,11 @@ fun main(args: Array<String>) {
     AdventPrinter.partTwo(10)
     val syntaxAutoComplete = SyntaxAutoComplete("src/main/kotlin/day10/input.txt")
     syntaxAutoComplete.completeNonCorruptedLines()
+
+    AdventPrinter.partOne(11)
+    val octopusTracker = OctopusTracker("src/main/kotlin/day11/input.txt")
+    octopusTracker.predictFlashes(100)
+
+    AdventPrinter.partTwo(11)
+    octopusTracker.findSynchronizedFlashStep()
 }
