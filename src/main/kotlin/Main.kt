@@ -6,6 +6,9 @@ import day1.DepthReader
 import day10.SyntaxAutoComplete
 import day10.SyntaxParser
 import day11.OctopusTracker
+import day12.CaveMapper
+import day12.CaveMapperPartTwo
+import day12.SimpleCaveMapper
 import day6.LanternMap
 import day6.Lanternfish
 import day6.readInLines
@@ -85,4 +88,12 @@ fun main(args: Array<String>) {
 
     AdventPrinter.partTwo(11)
     octopusTracker.findSynchronizedFlashStep()
+
+    AdventPrinter.partOne(12)
+    val caveMapper = SimpleCaveMapper("src/main/kotlin/day12/input.txt")
+    caveMapper.getTotalPaths()
+
+    AdventPrinter.partTwo(12)
+    val caveMapperPartTwo = CaveMapperPartTwo("src/main/kotlin/day12/input.txt")
+    caveMapperPartTwo.getTotalPaths()
 }
