@@ -29,10 +29,4 @@ internal class OctopusTrackerTest {
         val octopusTracker = OctopusTracker("src/test/kotlin/day11/nine-steps.txt")
         assertEquals(9, octopusTracker.findSynchronizedFlashStep())
     }
-
-    @Test
-    fun guilliamsTestInput() {
-        val octopusTracker = OctopusTracker("src/test/kotlin/day11/guilliams-input-test-case.txt")
-        assertEquals(199, octopusTracker.findSynchronizedFlashStep())
-    }
 }
