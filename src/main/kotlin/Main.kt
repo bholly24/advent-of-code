@@ -8,6 +8,7 @@ import day10.SyntaxParser
 import day11.OctopusTracker
 import day12.CaveMapperPartTwo
 import day12.SimpleCaveMapper
+import day13.InstructionCreaser
 import day6.LanternMap
 import day6.Lanternfish
 import day6.readInLines
@@ -96,4 +97,12 @@ fun main(args: Array<String>) {
     AdventPrinter.partTwo(12)
     val caveMapperPartTwo = CaveMapperPartTwo("src/main/kotlin/day12/input.txt")
     caveMapperPartTwo.getTotalPaths()
+
+    AdventPrinter.partOne(13)
+    val instructionCreaser = InstructionCreaser("src/main/kotlin/day13/input.txt")
+    instructionCreaser.foldVertically(655, true)
+
+    AdventPrinter.partTwo(13)
+    val instructionCreaserTwo = InstructionCreaser("src/main/kotlin/day13/input.txt")
+    instructionCreaserTwo.executeFoldSteps()
 }
