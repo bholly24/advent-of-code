@@ -1,25 +1,25 @@
-import day8.SegmentDecoder
-import day3.BinaryDecoder
-import day7.ExponentialCrabCommander
-import day7.LinearCrabCommander
-import day1.DepthReader
+import day08.SegmentDecoder
+import day03.BinaryDecoder
+import day07.ExponentialCrabCommander
+import day07.LinearCrabCommander
+import day01.DepthReader
 import day10.SyntaxAutoComplete
 import day10.SyntaxParser
 import day11.OctopusTracker
 import day12.CaveMapperPartTwo
 import day12.SimpleCaveMapper
 import day13.InstructionCreaser
-import day6.LanternMap
-import day6.Lanternfish
-import day6.readInLines
-import day9.LavaWalker
+import day06.LanternMap
+import day06.Lanternfish
+import day06.readInLines
+import day09.LavaWalker
 import printer.AdventPrinter
 
 fun main(args: Array<String>) {
     AdventPrinter.introduction()
     AdventPrinter.partOne(1)
     val reader = DepthReader()
-    val depthReadings = reader.readInFile("src/main/kotlin/day1/input.txt")
+    val depthReadings = reader.readInFile("src/main/kotlin/day01/input.txt")
     val singleDepthChanges = reader.countDepthIncreases(depthReadings)
     println("Single count depth changes: $singleDepthChanges")
 
@@ -31,7 +31,7 @@ fun main(args: Array<String>) {
 
     AdventPrinter.partOne(3)
     val decoder = BinaryDecoder()
-    val binaryReadings = decoder.readInBinaryNumbers("src/main/kotlin/day3/binary-input.txt")
+    val binaryReadings = decoder.readInBinaryNumbers("src/main/kotlin/day03/binary-input.txt")
     val powerConsumption = decoder.getPowerConsumption(binaryReadings)
     println("Power consumption: $powerConsumption")
 
@@ -43,7 +43,7 @@ fun main(args: Array<String>) {
     AdventPrinter.skippedForNow(5)
 
     AdventPrinter.partOne(6)
-    val lanternInput = readInLines("src/main/kotlin/day6/input.txt")
+    val lanternInput = readInLines("src/main/kotlin/day06/input.txt")
     val lanternfish = Lanternfish(lanternInput)
     lanternfish.runSimulation(80)
 
@@ -52,7 +52,7 @@ fun main(args: Array<String>) {
     lanternMap.runSimulationAndGetFishTotal(256)
 
     AdventPrinter.partOne(7)
-    val crabInput = readInLines("src/main/kotlin/day7/input.txt").toList()
+    val crabInput = readInLines("src/main/kotlin/day07/input.txt").toList()
     val linearCommander = LinearCrabCommander(crabInput)
     linearCommander.alignCrabs()
 
@@ -61,14 +61,14 @@ fun main(args: Array<String>) {
     exponentialCrabCommander.alignCrabs()
 
     AdventPrinter.partOne(8)
-    val segmentDecoder = SegmentDecoder("src/main/kotlin/day8/input.txt")
+    val segmentDecoder = SegmentDecoder("src/main/kotlin/day08/input.txt")
     segmentDecoder.countDecipherableSegments()
 
     AdventPrinter.partTwo(8)
     segmentDecoder.decodeAndAddSegments()
 
     AdventPrinter.partOne(9)
-    val lavaWalker = LavaWalker("src/main/kotlin/day9/input.txt")
+    val lavaWalker = LavaWalker("src/main/kotlin/day09/input.txt")
     lavaWalker.findTotalRisk()
 
     AdventPrinter.partTwo(9)

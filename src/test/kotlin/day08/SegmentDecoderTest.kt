@@ -1,4 +1,4 @@
-package day8
+package day08
 
 import org.junit.jupiter.api.Test
 
@@ -8,14 +8,14 @@ internal class SegmentDecoderTest {
 
     @Test
     fun countDecipherableSegments() {
-        val decoder = SegmentDecoder("src/test/kotlin/Day8/test-input.txt")
+        val decoder = SegmentDecoder("src/test/kotlin/day08/test-input.txt")
         val result = decoder.countDecipherableSegments()
         assertEquals(26, result)
     }
 
     @Test
     fun decodeAndSumSegments() {
-        val decoder = SegmentDecoder("src/test/kotlin/Day8/test-input.txt")
+        val decoder = SegmentDecoder("src/test/kotlin/day08/test-input.txt")
         val result = decoder.decodeAndAddSegments()
         assertEquals(61229, result)
     }

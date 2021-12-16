@@ -1,4 +1,4 @@
-package day9
+package day09
 
 import org.junit.jupiter.api.Test
 
@@ -8,14 +8,14 @@ internal class LavaWalkerTest {
 
     @Test
     fun findLowestPoints() {
-        val lavaWalker = LavaWalker("src/test/kotlin/day9/input.txt")
+        val lavaWalker = LavaWalker("src/test/kotlin/day09/input.txt")
 
         assertEquals(15, lavaWalker.findTotalRisk())
     }
 
     @Test
     fun findBasinSizes() {
-        val lavaWalker = LavaWalker("src/test/kotlin/day9/input.txt")
+        val lavaWalker = LavaWalker("src/test/kotlin/day09/input.txt")
         assertEquals(1134, lavaWalker.findBasinSizes())
     }
 }
