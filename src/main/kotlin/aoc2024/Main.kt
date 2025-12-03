@@ -1,3 +1,4 @@
+package aoc2024
 import aoc2024.day00.DayZero
 import aoc2024.day01.DayOne
 import aoc2024.day02.Day2

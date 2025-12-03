@@ -1,4 +1,4 @@
-package aoc2024.UtilityTypes
+package utils
 
 data class Grid<T>(val items: List<List<T>>) {
     val yMax = items.size

@@ -1,4 +1,4 @@
-//package bingo
+package aoc2021.day04//package bingo
 //
 //class BingoGame(private val bingoBoards: Array<BingoBoard>) {
 //    fun recordNumber(number: Int) {

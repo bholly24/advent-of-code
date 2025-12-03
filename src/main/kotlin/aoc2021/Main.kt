@@ -1,5 +1,6 @@
 package aoc2021
 
+import aoc2021.day01.DepthReader
 import aoc2021.day08.SegmentDecoder
 import aoc2021.day03.BinaryDecoder
 import aoc2021.day07.ExponentialCrabCommander
@@ -16,11 +17,11 @@ import aoc2021.day06.readInLines
 import aoc2021.day09.LavaWalker
 import aoc2021.printer.AdventPrinter
 
-fun main(args: Array<String>) {
+fun main() {
     AdventPrinter.introduction()
     AdventPrinter.partOne(1)
     val reader = DepthReader()
-    val depthReadings = reader.readInFile("src/main/kotlin/day01/input.txt")
+    val depthReadings = reader.readInFile("src/main/kotlin/aoc2021/day01/input.txt")
     val singleDepthChanges = reader.countDepthIncreases(depthReadings)
     println("Single count depth changes: $singleDepthChanges")
 
@@ -32,7 +33,7 @@ fun main(args: Array<String>) {
 
     AdventPrinter.partOne(3)
     val decoder = BinaryDecoder()
-    val binaryReadings = decoder.readInBinaryNumbers("src/main/kotlin/day03/binary-input.txt")
+    val binaryReadings = decoder.readInBinaryNumbers("src/main/kotlin/aoc2021/day03/binary-input.txt")
     val powerConsumption = decoder.getPowerConsumption(binaryReadings)
     println("Power consumption: $powerConsumption")
 
@@ -44,7 +45,7 @@ fun main(args: Array<String>) {
     AdventPrinter.skippedForNow(5)
 
     AdventPrinter.partOne(6)
-    val lanternInput = readInLines("src/main/kotlin/day06/input.txt")
+    val lanternInput = readInLines("src/main/kotlin/aoc2021/day06/input.txt")
     val lanternfish = Lanternfish(lanternInput)
     lanternfish.runSimulation(80)
 
@@ -53,7 +54,7 @@ fun main(args: Array<String>) {
     lanternMap.runSimulationAndGetFishTotal(256)
 
     AdventPrinter.partOne(7)
-    val crabInput = readInLines("src/main/kotlin/day07/input.txt").toList()
+    val crabInput = readInLines("src/main/kotlin/aoc2021/day07/input.txt").toList()
     val linearCommander = LinearCrabCommander(crabInput)
     linearCommander.alignCrabs()
 
@@ -62,48 +63,48 @@ fun main(args: Array<String>) {
     exponentialCrabCommander.alignCrabs()
 
     AdventPrinter.partOne(8)
-    val segmentDecoder = SegmentDecoder("src/main/kotlin/day08/input.txt")
+    val segmentDecoder = SegmentDecoder("src/main/kotlin/aoc2021/day08/input.txt")
     segmentDecoder.countDecipherableSegments()
 
     AdventPrinter.partTwo(8)
     segmentDecoder.decodeAndAddSegments()
 
     AdventPrinter.partOne(9)
-    val lavaWalker = LavaWalker("src/main/kotlin/day09/input.txt")
+    val lavaWalker = LavaWalker("src/main/kotlin/aoc2021/day09/input.txt")
     lavaWalker.findTotalRisk()
 
     AdventPrinter.partTwo(9)
     lavaWalker.findBasinSizes()
 
     AdventPrinter.partOne(10)
-    val syntaxParser = SyntaxParser("src/main/kotlin/day10/input.txt")
+    val syntaxParser = SyntaxParser("src/main/kotlin/aoc2021/day10/input.txt")
     syntaxParser.scoreErrors()
 
     AdventPrinter.partTwo(10)
-    val syntaxAutoComplete = SyntaxAutoComplete("src/main/kotlin/day10/input.txt")
+    val syntaxAutoComplete = SyntaxAutoComplete("src/main/kotlin/aoc2021/day10/input.txt")
     syntaxAutoComplete.completeNonCorruptedLines()
 
     AdventPrinter.partOne(11)
-    val octopusTracker = OctopusTracker("src/main/kotlin/day11/input.txt")
+    val octopusTracker = OctopusTracker("src/main/kotlin/aoc2021/day11/input.txt")
     octopusTracker.predictFlashes(100)
 
     AdventPrinter.partTwo(11)
-    val octopusSynchronizer = OctopusTracker("src/main/kotlin/day11/input.txt")
+    val octopusSynchronizer = OctopusTracker("src/main/kotlin/aoc2021/day11/input.txt")
     octopusSynchronizer.findSynchronizedFlashStep()
 
     AdventPrinter.partOne(12)
-    val caveMapper = SimpleCaveMapper("src/main/kotlin/day12/input.txt")
+    val caveMapper = SimpleCaveMapper("src/main/kotlin/aoc2021/day12/input.txt")
     caveMapper.getTotalPaths()
 
     AdventPrinter.partTwo(12)
-    val caveMapperPartTwo = CaveMapperPartTwo("src/main/kotlin/day12/input.txt")
+    val caveMapperPartTwo = CaveMapperPartTwo("src/main/kotlin/aoc2021/day12/input.txt")
     caveMapperPartTwo.getTotalPaths()
 
     AdventPrinter.partOne(13)
-    val instructionCreaser = InstructionCreaser("src/main/kotlin/day13/input.txt")
+    val instructionCreaser = InstructionCreaser("src/main/kotlin/aoc2021/day13/input.txt")
     instructionCreaser.foldVertically(655, true)
 
     AdventPrinter.partTwo(13)
-    val instructionCreaserTwo = InstructionCreaser("src/main/kotlin/day13/input.txt")
+    val instructionCreaserTwo = InstructionCreaser("src/main/kotlin/aoc2021/day13/input.txt")
     instructionCreaserTwo.executeFoldSteps()
 }

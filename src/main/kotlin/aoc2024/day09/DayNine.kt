@@ -1,7 +1,7 @@
 package aoc2024.day09
 
-import aoc2024.UtilityTypes.Coord
-import aoc2024.UtilityTypes.Grid
+import utils.Coord
+import utils.Grid
 import java.io.File
 
 class DayNine(path: String) {
