@@ -1,6 +1,6 @@
 package aoc2024.day12
 
-import aoc2024.UtilityTypes.Coord
+import utils.Coord
 import java.io.File
 import java.math.BigDecimal
 import java.math.RoundingMode

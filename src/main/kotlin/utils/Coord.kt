@@ -1,4 +1,4 @@
-package aoc2024.UtilityTypes
+package utils
 
 open class Coord(val x: Int, val y: Int) {
     fun getSurroundingCoords(): List<Coord> {

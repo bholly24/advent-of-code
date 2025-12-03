@@ -1,4 +1,4 @@
-package aoc2024.profiling
+package utils
 
 object MemoryProfiler {
     // Run before and after object creation or at an interval to measure runtime memory

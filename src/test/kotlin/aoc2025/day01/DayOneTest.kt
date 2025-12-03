@@ -1,16 +1,16 @@
 package aoc2025.day01
 
+import aoc2025.utils.FileHelper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 
 class DayOneTest {
-
-    lateinit var dayOne: DayOne
+    private lateinit var dayOne: DayOne
 
     @BeforeEach
     fun setup() {
-        dayOne = DayOne("src/test/kotlin/aoc2025/day01/input.txt")
+        dayOne = DayOne(FileHelper.testFileForDay(1))
     }
 
     @Test
@@ -20,7 +20,7 @@ class DayOneTest {
 
     @Test
     fun partAPuzzle() {
-        dayOne = DayOne("src/test/kotlin/aoc2025/day01/puzzle.txt")
+        dayOne = DayOne(FileHelper.puzzleFileForDay(1))
         assertEquals(44487518055, dayOne.partA())
     }
 
@@ -31,7 +31,7 @@ class DayOneTest {
 
     @Test
     fun partBPuzzle() {
-        dayOne = DayOne("src/test/kotlin/aoc2025/day01/puzzle.txt")
+        dayOne = DayOne(FileHelper.puzzleFileForDay(1))
         assertEquals(53481866137, dayOne.partB())
     }
 

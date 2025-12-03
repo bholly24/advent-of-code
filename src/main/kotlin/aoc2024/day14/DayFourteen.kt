@@ -1,6 +1,6 @@
 package aoc2024.day14
 
-import aoc2024.UtilityTypes.Coord
+import utils.Coord
 import java.io.File
 
 class DayFourteen(path: String) {
