@@ -5,28 +5,25 @@ import java.io.File
 class DayOne(filePath: String) {
     private val codes: List<List<String>> = File(filePath).readLines()[0]
         .split(",")
-        .map {
-            val codes = it.split("-")
-            val first = codes.first().toLong()
-            val last = codes.last().toLong()
-            (first..last).toList().map {i -> i.toString()
+        .map { range ->
+            val (start, end) = range.split("-").map(String::toLong)
+            (start..end).map(Long::toString)
         }
-    }
 
     fun partA(): Long {
-        val total = codes.sumOf { it.sumOf { s -> if (containsDuplicateSequence(s)) s.toLong() else 0 } }
+        val total = codes.sumOf { code -> code.sumOf { s -> if (containsDuplicateSequence(s)) s.toLong() else 0 } }
         println("Total: $total")
         return total
     }
 
     fun partB(): Long {
-        val total = codes.sumOf { it.filter { s -> containsSubsequence(s)}.sumOf { i -> i.toLong() }}
+        val total = codes.sumOf { code -> code.filter(::containsSubsequence).sumOf { it.toLong() }}
         println("Total: $total")
         return total
     }
 
     fun containsDuplicateSequence(s: String): Boolean {
-        return s.length % 2 == 0 && s.slice(0 until s.length / 2) == s.slice((s.length / 2) until s.length)
+        return s.length % 2 == 0 && s.take(s.length / 2) == s.drop(s.length / 2)
     }
 
     fun containsSubsequence(s: String): Boolean {
