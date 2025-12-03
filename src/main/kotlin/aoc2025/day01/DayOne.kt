@@ -3,7 +3,9 @@ package aoc2025.day01
 import java.io.File
 
 class DayOne(filePath: String) {
-    private val codes: List<List<String>> = File(filePath).readLines()[0]
+    private val codes: List<List<String>> = File(filePath)
+        .readLines()
+        .first()
         .split(",")
         .map { range ->
             val (start, end) = range.split("-").map(String::toLong)
@@ -17,7 +19,7 @@ class DayOne(filePath: String) {
     }
 
     fun partB(): Long {
-        val total = codes.sumOf { code -> code.filter(::containsSubsequence).sumOf { it.toLong() }}
+        val total = codes.sumOf { code -> code.filter(::containsSubsequence).sumOf { it.toLong() } }
         println("Total: $total")
         return total
     }
@@ -27,18 +29,12 @@ class DayOne(filePath: String) {
     }
 
     fun containsSubsequence(s: String): Boolean {
-        var seq = ""
-        var remainingString = s
-        for (i in s.indices) {
-            if (seq.length > remainingString.length) return false
-            if (couldBeChunked(seq, remainingString) && remainingString.chunked(seq.length).none { it != seq })
-                return true
-            seq += remainingString.first()
-            remainingString = remainingString.slice(1 until remainingString.length)
-        }
-        return false
+        return (1..s.length / 2)
+            .toList()
+            .any {
+                val seq = s.take(it)
+                val remaining = s.drop(it)
+                remaining.chunked(seq.length).all { chunk -> chunk == seq }
+            }
     }
-
-    private fun couldBeChunked(seq: String, remainingString: String) =
-        !(seq.isEmpty() || remainingString.length % seq.length != 0)
 }
