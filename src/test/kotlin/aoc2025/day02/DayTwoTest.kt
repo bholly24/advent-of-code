@@ -16,24 +16,24 @@ class DayTwoTest {
 
     @Test
     fun partA() {
-        assertEquals(0, dayTwo.partA())
+        assertEquals(357, dayTwo.partA())
     }
 
 
     @Test
     fun puzzleA() {
         dayTwo = DayTwo(FileHelper.puzzleFileForDay(2))
-        assertEquals(0, dayTwo.partA())
+        assertEquals(17144, dayTwo.partA())
     }
 
     @Test
     fun partB() {
-        assertEquals(0, dayTwo.partB())
+        assertEquals(3121910778619L, dayTwo.partB())
     }
 
     @Test
     fun puzzleB() {
         dayTwo = DayTwo(FileHelper.puzzleFileForDay(2))
-        assertEquals(0, dayTwo.partB())
+        assertEquals(170371185255900L, dayTwo.partB())
     }
 }
