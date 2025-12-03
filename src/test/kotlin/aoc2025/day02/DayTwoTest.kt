@@ -16,14 +16,14 @@ class DayTwoTest {
 
     @Test
     fun partA() {
-        assertEquals(357, dayTwo.partA())
+        assertEquals(357L, dayTwo.partA())
     }
 
 
     @Test
     fun puzzleA() {
         dayTwo = DayTwo(FileHelper.puzzleFileForDay(2))
-        assertEquals(17144, dayTwo.partA())
+        assertEquals(17144L, dayTwo.partA())
     }
 
     @Test
