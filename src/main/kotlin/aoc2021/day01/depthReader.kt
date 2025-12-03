@@ -1,4 +1,4 @@
-package aoc2021
+package aoc2021.day01
 
 import java.io.File
 import java.io.InputStream
