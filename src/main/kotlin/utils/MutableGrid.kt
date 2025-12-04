@@ -1,6 +1,6 @@
 package utils
 
-data class Grid<T>(val items: List<List<T>>) {
+data class MutableGrid<T>(val items: MutableList<MutableList<T>>) {
     val yMax = items.size
     val xMax = items[0].size
 
@@ -8,12 +8,16 @@ data class Grid<T>(val items: List<List<T>>) {
         return items[coord.y][coord.x]
     }
 
+    fun set(coord: Coord, value: T) {
+        items[coord.y][coord.x] = value
+    }
+
     fun getNeighbors(point: Coord): List<Coord> {
         return listOf(
-        Coord(point.x + 1, point.y),
-        Coord(point.x - 1, point.y),
-        Coord(point.x, point.y + 1),
-        Coord(point.x, point.y - 1)
+            Coord(point.x + 1, point.y),
+            Coord(point.x - 1, point.y),
+            Coord(point.x, point.y + 1),
+            Coord(point.x, point.y - 1)
         ).filter(::isInBounds)
     }
 
