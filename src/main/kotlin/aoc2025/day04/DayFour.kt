@@ -5,7 +5,6 @@ import utils.MutableGrid
 import java.io.File
 
 class DayFour(filePath: String) {
-    private var totalRemoved = 0
     val tpGrid = MutableGrid<Char>(File(filePath).readLines().map { it.toMutableList() }.toMutableList())
     fun partA(): Int {
         var total = 0
@@ -21,24 +20,22 @@ class DayFour(filePath: String) {
     }
 
     fun partB(): Int {
+        var totalRemoved = 0
         for (y in 0 until tpGrid.yMax) {
             for (x in 0 until tpGrid.xMax) {
                 val co = Coord(x, y)
                 if (tpGrid.get(co) != '@') continue
-                getNeighborsAndRemove(co)
+                totalRemoved += getNeighborsAndRemove(co)
             }
         }
         return totalRemoved
     }
 
-    private fun getNeighborsAndRemove(co: Coord) {
-        if (tpGrid.get(co) != '@') return
-        val neighbors = tpGrid.getNeighborsWithDiagonal(co)
-            .filter { tpGrid.get(it) == '@' }
-        if (neighbors.size < 4) {
-            tpGrid.set(Coord(co.x, co.y), '.')
-            totalRemoved++
-            neighbors.forEach { n -> getNeighborsAndRemove(n) }
-        }
+    private fun getNeighborsAndRemove(co: Coord): Int {
+        if (tpGrid.get(co) != '@') return 0
+        val neighbors = tpGrid.getNeighborsWithDiagonal(co).filter { tpGrid.get(it) == '@' }
+        if (neighbors.size >= 4) { return 0 }
+        tpGrid.set(Coord(co.x, co.y), '.')
+        return 1 + neighbors.sumOf { n -> getNeighborsAndRemove(n) }
     }
 }
