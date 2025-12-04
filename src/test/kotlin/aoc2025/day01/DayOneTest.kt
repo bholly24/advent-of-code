@@ -1,6 +1,7 @@
 package aoc2025.day01
 
 import aoc2025.utils.FileHelper
+import aoc2025.utils.logAndAssertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -15,24 +16,25 @@ class DayOneTest {
 
     @Test
     fun testPartOne() {
-        assertEquals(1227775554, dayOne.partA())
+        logAndAssertEquals(1227775554, dayOne::partA)
+
     }
 
     @Test
     fun partAPuzzle() {
         dayOne = DayOne(FileHelper.puzzleFileForDay(1))
-        assertEquals(44487518055, dayOne.partA())
+        logAndAssertEquals(44487518055, dayOne::partA)
     }
 
     @Test
     fun testPartB() {
-        assertEquals(4174379265, dayOne.partB())
+        logAndAssertEquals(4174379265, dayOne::partB)
     }
 
     @Test
     fun partBPuzzle() {
         dayOne = DayOne(FileHelper.puzzleFileForDay(1))
-        assertEquals(53481866137, dayOne.partB())
+        logAndAssertEquals(53481866137, dayOne::partB)
     }
 
     @Test

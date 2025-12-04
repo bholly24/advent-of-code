@@ -1,6 +1,7 @@
 package aoc2025.day00
 
 import aoc2025.utils.FileHelper
+import aoc2025.utils.logAndAssertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -15,24 +16,24 @@ class DayZeroTest {
 
     @Test
     fun partA() {
-        assertEquals(3, dayZero.partA())
+        logAndAssertEquals(3, dayZero::partA)
     }
 
     @Test
     fun puzzleA() {
         dayZero = DayZero(FileHelper.puzzleFileForDay(0))
-        assertEquals(1066, dayZero.partA())
+        logAndAssertEquals(1066, dayZero::partA)
     }
 
     @Test
     fun partB() {
-        assertEquals(6, dayZero.partB())
+        logAndAssertEquals(6, dayZero::partB)
     }
 
     @Test
     fun puzzleB() {
         dayZero = DayZero(FileHelper.puzzleFileForDay(0))
-        assertEquals(6223, dayZero.partB())
+        logAndAssertEquals(6223, dayZero::partB)
     }
 
     fun assertState(position: Direction = Direction.Left, startPosition: Int = 50, endPosition: Int = 50, turns: Int = 0, times: Int = 0) {

@@ -12,21 +12,12 @@ class DayOne(filePath: String) {
             (start..end).map(Long::toString)
         }
 
-    fun partA(): Long {
-        val total = codes.sumOf { code -> code.sumOf { s -> if (containsDuplicateSequence(s)) s.toLong() else 0 } }
-        println("Total: $total")
-        return total
-    }
+    fun partA(): Long = codes.sumOf { c -> c.sumOf { s -> if (containsDuplicateSequence(s)) s.toLong() else 0 } }
 
-    fun partB(): Long {
-        val total = codes.sumOf { code -> code.filter(::containsSubsequence).sumOf { it.toLong() } }
-        println("Total: $total")
-        return total
-    }
+    fun partB(): Long = codes.sumOf { c -> c.filter(::containsSubsequence).sumOf { it.toLong() } }
 
-    fun containsDuplicateSequence(s: String): Boolean {
-        return s.length % 2 == 0 && s.take(s.length / 2) == s.drop(s.length / 2)
-    }
+    fun containsDuplicateSequence(s: String): Boolean =
+        s.length % 2 == 0 && s.take(s.length / 2) == s.drop(s.length / 2)
 
     fun containsSubsequence(s: String): Boolean {
         return (1..s.length / 2)

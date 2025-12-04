@@ -11,15 +11,15 @@ class DayZero(filePath: String) {
     }
 
     fun partA(): Int {
-        val r = lines.fold(Result(50, 0)) { acc, it -> PartA.next(it, acc) }
-        println("Total times is ${r.timesToIncrement}")
-        return r.timesToIncrement
+        return lines
+            .fold(Result(50, 0)) { acc, it -> PartA.next(it, acc) }
+            .timesToIncrement
     }
 
     fun partB(): Int {
-        val r = lines.fold(Result(50, 0)) { acc, it -> PartB.next(it, acc) }
-        println("Total times is ${r.timesToIncrement}")
-        return r.timesToIncrement
+        return lines
+            .fold(Result(50, 0)) { acc, it -> PartB.next(it, acc) }
+            .timesToIncrement
     }
 
     object PartA : GetResult {
