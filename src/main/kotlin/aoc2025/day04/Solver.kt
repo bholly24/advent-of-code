@@ -4,7 +4,7 @@ import utils.Coord
 import utils.MutableGrid
 import java.io.File
 
-class DayFour(filePath: String) {
+class Solver(filePath: String) {
     val tpGrid = MutableGrid<Char>(File(filePath).readLines().map { it.toMutableList() }.toMutableList())
     fun partA(): Int {
         var total = 0
@@ -39,3 +39,4 @@ class DayFour(filePath: String) {
         return 1 + neighbors.sumOf { n -> getNeighborsAndRemove(n) }
     }
 }
+

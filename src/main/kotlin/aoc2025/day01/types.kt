@@ -1,4 +1,4 @@
-package aoc2025.day00
+package aoc2025.day01
 
 data class Instruction(val direction: Direction, val turns: Int)
 data class Result(val position: Int, val timesToIncrement: Int)

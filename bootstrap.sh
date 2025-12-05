@@ -43,7 +43,7 @@ class SolverTest {
     @BeforeEach
     fun setUp() {
         exampleSolver = Solver(FileHelper.testFileForDay($NUM_NO_Zero))
-        puzzleSolver = Solver(FileHelper.testFileForDay($NUM_NO_Zero))
+        puzzleSolver = Solver(FileHelper.puzzleFileForDay($NUM_NO_Zero))
     }
 
     @Test

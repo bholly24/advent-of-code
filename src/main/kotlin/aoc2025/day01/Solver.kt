@@ -1,9 +1,10 @@
-package aoc2025.day00
+package aoc2025.day01
 
+import apple.laf.JRSUIConstants
 import java.io.File
 import kotlin.math.abs
 
-class DayZero(filePath: String) {
+class Solver(filePath: String) {
     private val lines = File(filePath).readLines().map {
         val d = if (it.first() == 'R') Direction.Right else Direction.Left
         val n = it.slice(1 until it.length).toInt()
@@ -60,3 +61,4 @@ class DayZero(filePath: String) {
         }
     }
 }
+
