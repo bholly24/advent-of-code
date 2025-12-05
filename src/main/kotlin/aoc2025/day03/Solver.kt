@@ -9,8 +9,7 @@ class Solver(filePath: String) {
 
     private fun getMaxLongOfLength(intList: List<Int>, length: Int): Long {
         val rangeMap = intList.foldIndexed(List(length) { 0 }) { index, acc, i ->
-            val indexToChange = acc
-                .mapIndexed { ind, it ->
+            val indexToChange = acc.mapIndexed { ind, it ->
                     val possibleNumbersLeft = intList.size - index
                     if (possibleNumbersLeft >= length - ind && i > it) 1 else 0
                 }

@@ -1,6 +1,6 @@
 package utils
 
-data class Grid<T>(val items: List<List<T>>) {
+open class Grid<T>(val items: List<List<T>>) {
     val yMax = items.size
     val xMax = items[0].size
 
@@ -39,5 +39,19 @@ data class Grid<T>(val items: List<List<T>>) {
         ).filter { !isInBounds(it) }
     }
 
+    fun toMutableGrid(): MutableGrid<T> {
+        val copiedItems = items.map { it.toMutableList() }.toMutableList()
+        return MutableGrid(copiedItems)
+    }
+
     private fun isInBounds(c: Coord): Boolean = c.x in 0 until xMax && c.y in 0 until yMax
+}
+
+class MutableGrid<T>(
+    private val mutableItems: MutableList<MutableList<T>>
+) : Grid<T>(mutableItems) {
+
+    fun set(coord: Coord, value: T) {
+        mutableItems[coord.y][coord.x] = value
+    }
 }
