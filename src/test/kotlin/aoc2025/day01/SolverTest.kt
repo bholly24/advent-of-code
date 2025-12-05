@@ -1,43 +1,43 @@
-package aoc2025.day00
+package aoc2025.day01
 
 import aoc2025.utils.FileHelper
 import aoc2025.utils.logAndAssertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-class DayZeroTest {
-    private lateinit var dayZero: DayZero;
+class SolverTest {
+    private lateinit var exampleSolver: Solver
+    private lateinit var puzzleSolver: Solver
 
     @BeforeEach
-    fun setup() {
-        dayZero = DayZero(FileHelper.testFileForDay(0))
+    fun setUp() {
+        exampleSolver = Solver(FileHelper.testFileForDay(1))
+        puzzleSolver = Solver(FileHelper.puzzleFileForDay(1))
     }
 
     @Test
     fun partA() {
-        logAndAssertEquals(3, dayZero::partA)
+        logAndAssertEquals(3, exampleSolver::partA)
     }
 
     @Test
     fun puzzleA() {
-        dayZero = DayZero(FileHelper.puzzleFileForDay(0))
-        logAndAssertEquals(1066, dayZero::partA)
+        logAndAssertEquals(1066, puzzleSolver::partA)
     }
 
     @Test
     fun partB() {
-        logAndAssertEquals(6, dayZero::partB)
+        logAndAssertEquals(6, exampleSolver::partB)
     }
 
     @Test
     fun puzzleB() {
-        dayZero = DayZero(FileHelper.puzzleFileForDay(0))
-        logAndAssertEquals(6223, dayZero::partB)
+        logAndAssertEquals(6223, puzzleSolver::partB)
     }
 
     fun assertState(position: Direction = Direction.Left, startPosition: Int = 50, endPosition: Int = 50, turns: Int = 0, times: Int = 0) {
-        val r = DayZero.PartB.next(Instruction(position, turns), Result(startPosition, 0))
+        val r = Solver.PartB.next(Instruction(position, turns), Result(startPosition, 0))
         assertEquals(times, r.timesToIncrement)
         assertEquals(endPosition, r.position)
     }
@@ -62,3 +62,4 @@ class DayZeroTest {
         assertState(Direction.Right, 50, 1, 151, 2)
     }
 }
+

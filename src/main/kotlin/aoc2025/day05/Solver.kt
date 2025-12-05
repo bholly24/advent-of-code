@@ -2,7 +2,7 @@ package aoc2025.day05
 
 import java.io.File
 
-class DayFive(filePath: String) {
+class Solver(filePath: String) {
     private val ranges: List<LongRange>
     private val valsToCheck: List<Long>
 
@@ -36,3 +36,4 @@ class DayFive(filePath: String) {
         return mutableRangeList.toSet().sumOf { (1 + it.last - it.first) }
     }
 }
+

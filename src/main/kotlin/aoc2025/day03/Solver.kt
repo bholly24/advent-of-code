@@ -1,8 +1,8 @@
-package aoc2025.day02
+package aoc2025.day03
 
 import java.io.File
 
-class DayTwo(filePath: String) {
+class Solver(filePath: String) {
     val input = File(filePath).readLines().map { it.map { i -> i.digitToInt() } }
     fun partA(): Long = input.sumOf { getMaxLongOfLength(it, 2) }
     fun partB(): Long = input.sumOf { getMaxLongOfLength(it, 12) }
@@ -25,3 +25,4 @@ class DayTwo(filePath: String) {
         return rangeMap.joinToString("") { it.toString() }.toLong()
     }
 }
+

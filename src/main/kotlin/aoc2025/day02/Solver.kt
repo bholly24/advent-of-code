@@ -1,8 +1,8 @@
-package aoc2025.day01
+package aoc2025.day02
 
 import java.io.File
 
-class DayOne(filePath: String) {
+class Solver(filePath: String) {
     private val codes: List<List<String>> = File(filePath)
         .readLines()
         .first()
@@ -29,3 +29,4 @@ class DayOne(filePath: String) {
             }
     }
 }
+
