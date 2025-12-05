@@ -7,21 +7,13 @@ class DayFive(filePath: String) {
     private val valsToCheck: List<Long>
 
     init {
-        var r = mutableListOf<LongRange>()
-        var checks = mutableListOf<Long>()
-        var stillOnRanges = true
-        File(filePath).forEachLine {
-            if (it.isEmpty()) {
-                stillOnRanges = false
-            } else if (stillOnRanges) {
-                val split = it.split("-")
-                r.add(split.first().toLong()..split.last().toLong())
-            } else {
-                checks.add(it.toLong())
-            }
+        val lines = File(filePath).readLines()
+        val emptyLineIndex = lines.indexOfFirst { it.isEmpty() }
+        ranges = lines.take(emptyLineIndex).map {
+            val (start, end) = it.split("-").map(String::toLong)
+            start..end
         }
-        ranges = r
-        valsToCheck = checks
+        valsToCheck = lines.drop(emptyLineIndex + 1).map(String::toLong)
     }
 
     fun partA(): Int {
@@ -29,17 +21,18 @@ class DayFive(filePath: String) {
     }
 
     fun partB(): Long {
-        val rList = ranges.toMutableList()
-        for (i in rList.indices.reversed()) {
-            val it = rList[i]
-            val f = rList.indexOfFirst { check -> it.first in check && it != check }
-            if (f == -1) continue
-            if (rList[f].last < it.last) { rList[f] = rList[f].first..it.last }
-            rList.removeAt(i)
+        val mutableRangeList = ranges.toMutableList()
+        for (i in mutableRangeList.lastIndex downTo 0) {
+            val range = mutableRangeList[i]
+            val indexOverlappingRange = mutableRangeList.indexOfFirst { check -> range.first in check && range != check }
+            if (indexOverlappingRange == -1) continue
+            val target = mutableRangeList[indexOverlappingRange]
+            if (target.last < range.last) {
+                mutableRangeList[indexOverlappingRange] = target.first..range.last
+            }
+            mutableRangeList.removeAt(i)
         }
 
-        return rList
-            .toSet()
-            .sumOf { (1 + it.last - it.first) }
+        return mutableRangeList.toSet().sumOf { (1 + it.last - it.first) }
     }
 }
