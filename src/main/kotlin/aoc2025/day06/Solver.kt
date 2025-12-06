@@ -23,24 +23,23 @@ class Solver(filePath: String) {
             for (i in line.indices) {
                 val char = line[i]
                 if (char == ' ') continue
-                nums[i] = if(nums.containsKey(i)) nums[i] + char else char.toString()
+                nums[i] = if (nums.containsKey(i)) nums[i] + char else char.toString()
             }
         }
 
         // Determine length of each equation to be able to split them out of my 1D hashmap
-        val opLines = lines.last().padEnd(lines.maxOf { it.length })
+        val paddedOperators = lines.last().padEnd(lines.maxOf { it.length })
+        data class EquationCounterState(val eqLengths: List<Int> = listOf(), val numberChars: Int = 0)
 
-        var spaces = 0
-        val equationLengths = mutableListOf<Int>()
-        for (i in 1..opLines.lastIndex) {
-            if (opLines[i] == '+' || opLines[i] == '*') {
-                equationLengths.add(spaces)
-                spaces = 0
-            } else spaces++
-
-            // Handle final line
-            if (i == opLines.lastIndex) equationLengths.add(spaces + 1)
-        }
+        val equationLengths: List<Int> = paddedOperators
+            .foldIndexed(EquationCounterState()) { index, acc, ch ->
+                when {
+                    index == 0 -> EquationCounterState() // Ignore first operator
+                    index == paddedOperators.lastIndex -> EquationCounterState(acc.eqLengths + (acc.numberChars + 2)) // Account for last line
+                    ch == '+' || ch == '*' -> EquationCounterState(acc.eqLengths + acc.numberChars) // Add equation length
+                    else -> EquationCounterState(acc.eqLengths, acc.numberChars + 1) // Increment eq length on empty space
+                }
+            }.eqLengths
 
         // Map equation lengths to split hashmap and return equations
         val equations = nums.toSortedMap().values.toList()
