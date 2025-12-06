@@ -2,11 +2,10 @@ package utils
 
 open class Grid<T>(val items: List<List<T>>) {
     val yMax = items.size
-    val xMax = items[0].size
+    val xMax = items.maxOf { it.size }
 
-    fun get(coord: Coord): T {
-        return items[coord.y][coord.x]
-    }
+    fun get(coord: Coord): T = items[coord.y][coord.x]
+    fun get(x: Int, y: Int): T = items[y][x]
 
     fun getNeighbors(point: Coord): List<Coord> {
         return listOf(
