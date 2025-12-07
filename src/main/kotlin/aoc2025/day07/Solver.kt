@@ -43,30 +43,27 @@ class Solver(filePath: String) {
         }
     }
 
-    private object PartB {
-        val splitMaps = mutableMapOf<Pair<Int, Int>, Long>()
-    }
-
     fun partB(): Long {
+        val memoMap = mutableMapOf<Pair<Int, Int>, Long>()
         val startIndex = beamGrid.items.first().indexOfFirst { it == 'S' }
-        return calculateMemoizedTimelines(Coord(startIndex, 0))
+        return calculateMemoizedTimelines(Coord(startIndex, 0), memoMap)
     }
 
-    private fun calculateMemoizedTimelines(startCoord: Coord): Long {
+    private fun calculateMemoizedTimelines(startCoord: Coord, memoMap: MutableMap<Pair<Int, Int>, Long>): Long {
         val newY = startCoord.y + 1
         if (newY > beamGrid.yLastIndex()) return 1
         val targetCoord = Coord(startCoord.x, newY)
-        if (PartB.splitMaps.contains(Pair(targetCoord.x, targetCoord.y))) {
-            return PartB.splitMaps.getValue(Pair(targetCoord.x, targetCoord.y))
+        if (memoMap.contains(Pair(targetCoord.x, targetCoord.y))) {
+            return memoMap.getValue(Pair(targetCoord.x, targetCoord.y))
         }
         val gridVal = beamGrid.get(targetCoord)
         return when (gridVal) {
-            '.' -> calculateMemoizedTimelines(targetCoord)
+            '.' -> calculateMemoizedTimelines(targetCoord, memoMap)
             '^' -> {
                 val value = listOf(Coord(startCoord.x - 1, newY), Coord(startCoord.x + 1, newY))
                     .filter { beamGrid.isInBounds(it) }
-                    .sumOf { calculateMemoizedTimelines(it) }
-                PartB.splitMaps[Pair(targetCoord.x, targetCoord.y)] = value
+                    .sumOf { calculateMemoizedTimelines(it, memoMap) }
+                memoMap[Pair(targetCoord.x, targetCoord.y)] = value
                 value
             }
             else -> throw Exception("This should not be possible in an unmutated problem input")
