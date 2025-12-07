@@ -44,37 +44,32 @@ class Solver(filePath: String) {
     }
 
     private object PartB {
-        var beamDiffTimelines = 0L
         val splitMaps = mutableMapOf<Pair<Int, Int>, Long>()
     }
 
     fun partB(): Long {
         val startIndex = beamGrid.items.first().indexOfFirst { it == 'S' }
-        calculateMemoizedTimelines(Coord(startIndex, 0))
-        return PartB.splitMaps.values.max()
+        return calculateMemoizedTimelines(Coord(startIndex, 0))
     }
 
-    private fun calculateMemoizedTimelines(startCoord: Coord) {
+    private fun calculateMemoizedTimelines(startCoord: Coord): Long {
         val newY = startCoord.y + 1
-        if (newY > beamGrid.yLastIndex()) {
-            PartB.beamDiffTimelines++
-            return
-        }
+        if (newY > beamGrid.yLastIndex()) return 1
         val targetCoord = Coord(startCoord.x, newY)
         if (PartB.splitMaps.contains(Pair(targetCoord.x, targetCoord.y))) {
-            PartB.beamDiffTimelines += PartB.splitMaps.getValue(Pair(targetCoord.x, targetCoord.y))
-            return
+            return PartB.splitMaps.getValue(Pair(targetCoord.x, targetCoord.y))
         }
         val gridVal = beamGrid.get(targetCoord)
-        when (gridVal) {
+        return when (gridVal) {
             '.' -> calculateMemoizedTimelines(targetCoord)
             '^' -> {
-                val startDiff = PartB.beamDiffTimelines
-                listOf(Coord(startCoord.x - 1, newY), Coord(startCoord.x + 1, newY))
+                val value = listOf(Coord(startCoord.x - 1, newY), Coord(startCoord.x + 1, newY))
                     .filter { beamGrid.isInBounds(it) }
-                    .forEach { calculateMemoizedTimelines(it) }
-                PartB.splitMaps[Pair(targetCoord.x, targetCoord.y)] = PartB.beamDiffTimelines - startDiff
+                    .sumOf { calculateMemoizedTimelines(it) }
+                PartB.splitMaps[Pair(targetCoord.x, targetCoord.y)] = value
+                value
             }
+            else -> throw Exception("This should not be possible in an unmutated problem input")
         }
     }
 }
