@@ -9,6 +9,7 @@ open class Grid<T>(val items: List<List<T>>) {
     fun xLastIndex(x: Int = 0) = items[x].lastIndex
     fun yLastIndex() = items.lastIndex
     fun equals(grid: Grid<T>) = items.all { i -> grid.items.all { l -> i.equals(l) } }
+    fun coordExists(coord: Coord): Boolean = items.getOrNull(coord.y)?.getOrNull(coord.x) != null
 
     fun getNeighbors(point: Coord): List<Coord> {
         return listOf(
