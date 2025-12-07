@@ -46,17 +46,15 @@ class Solver(filePath: String) {
     }
 
     private fun calculateMemoizedTimelines(startCoord: Coord, memoMap: MutableMap<Coord, Long>): Long {
-        val newY = startCoord.y + 1
-        if (newY > beamGrid.yLastIndex()) return 1
-        val targetCoord = Coord(startCoord.x, newY)
-        if (memoMap.contains(targetCoord)) {
-            return memoMap.getValue(targetCoord)
-        }
+        val targetCoord = Coord(startCoord.x, startCoord.y + 1)
+        if (!beamGrid.coordExists(targetCoord)) return 1
+        if (memoMap.contains(targetCoord)) return memoMap.getValue(targetCoord)
+
         val gridVal = beamGrid.get(targetCoord)
         return when (gridVal) {
             '.' -> calculateMemoizedTimelines(targetCoord, memoMap)
             '^' -> {
-                val value = listOf(Coord(startCoord.x - 1, newY), Coord(startCoord.x + 1, newY))
+                val value = listOf(Coord(startCoord.x - 1, targetCoord.y), Coord(startCoord.x + 1, targetCoord.y))
                     .filter { beamGrid.isInBounds(it) }
                     .sumOf { calculateMemoizedTimelines(it, memoMap) }
                 memoMap[targetCoord] = value
