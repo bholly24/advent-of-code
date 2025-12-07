@@ -6,17 +6,18 @@ import utils.MutableGrid
 import java.io.File
 
 class Solver(filePath: String) {
-    private var beamSplits = 0
-    private var beamDiffTimelines = 0L
     private val beamGrid = Grid(File(filePath).readLines().map(String::toList))
-    private val splitMaps = mutableMapOf<Pair<Int, Int>, Long>()
+
+    private object PartA {
+        var beamSplits = 0
+    }
 
     fun partA(): Int {
         val mutableGrid = beamGrid.toMutableGrid()
         val startIndex = beamGrid.items.first().indexOfFirst { it == 'S' }
         mutateGridFromStart(mutableGrid, Coord(startIndex, 0))
         mutableGrid.print()
-        return beamSplits
+        return PartA.beamSplits
     }
 
     private fun mutateGridFromStart(grid: MutableGrid<Char>, c: Coord): Unit {
@@ -29,10 +30,9 @@ class Solver(filePath: String) {
                 grid.set(targetCoord, '|')
                 mutateGridFromStart(grid, targetCoord)
             }
-
             '|' -> grid.set(targetCoord, '|')
             '^' -> {
-                beamSplits++
+                PartA.beamSplits++
                 listOf(Coord(c.x - 1, newY), Coord(c.x + 1, newY))
                     .filter { grid.isInBounds(it) }
                     .forEach {
@@ -43,32 +43,37 @@ class Solver(filePath: String) {
         }
     }
 
-    fun partB(): Long {
-        val startIndex = beamGrid.items.first().indexOfFirst { it == 'S' }
-        mutateGridTimelinesMemoized(Coord(startIndex, 0))
-        return splitMaps.values.max()
+    private object PartB {
+        var beamDiffTimelines = 0L
+        val splitMaps = mutableMapOf<Pair<Int, Int>, Long>()
     }
 
-    private fun mutateGridTimelinesMemoized(startCoord: Coord) {
+    fun partB(): Long {
+        val startIndex = beamGrid.items.first().indexOfFirst { it == 'S' }
+        calculateMemoizedTimelines(Coord(startIndex, 0))
+        return PartB.splitMaps.values.max()
+    }
+
+    private fun calculateMemoizedTimelines(startCoord: Coord) {
         val newY = startCoord.y + 1
         if (newY > beamGrid.yLastIndex()) {
-            beamDiffTimelines++
+            PartB.beamDiffTimelines++
             return
         }
         val targetCoord = Coord(startCoord.x, newY)
-        if (splitMaps.contains(Pair(targetCoord.x, targetCoord.y))) {
-            beamDiffTimelines += splitMaps.getValue(Pair(targetCoord.x, targetCoord.y))
+        if (PartB.splitMaps.contains(Pair(targetCoord.x, targetCoord.y))) {
+            PartB.beamDiffTimelines += PartB.splitMaps.getValue(Pair(targetCoord.x, targetCoord.y))
             return
         }
         val gridVal = beamGrid.get(targetCoord)
         when (gridVal) {
-            '.' -> mutateGridTimelinesMemoized(targetCoord)
+            '.' -> calculateMemoizedTimelines(targetCoord)
             '^' -> {
-                val startDiff = beamDiffTimelines
+                val startDiff = PartB.beamDiffTimelines
                 listOf(Coord(startCoord.x - 1, newY), Coord(startCoord.x + 1, newY))
                     .filter { beamGrid.isInBounds(it) }
-                    .forEach { mutateGridTimelinesMemoized(it) }
-                splitMaps[Pair(targetCoord.x, targetCoord.y)] = beamDiffTimelines - startDiff
+                    .forEach { calculateMemoizedTimelines(it) }
+                PartB.splitMaps[Pair(targetCoord.x, targetCoord.y)] = PartB.beamDiffTimelines - startDiff
             }
         }
     }
