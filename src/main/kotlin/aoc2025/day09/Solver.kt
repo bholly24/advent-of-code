@@ -34,10 +34,13 @@ class Solver(filePath: String) {
     fun partB(): Long {
         val badCoords = mutableListOf<Coord>()
         partA()
+        val stuckAtIndex = 96048
         val sor = possibleAreas.sortedByDescending { it.second }
         var checked = 0
-        val firstAttempt = sor
+        val f = sor.drop(96048).first().second
+        val firstAttempt = sor.drop(96045).take(12)
             .first {
+                println("Value is ${it.second}")
                 val per = getCoordPerimeter(it.first.first, it.first.second)
                 println(checked++)
                 if (per.any { pc -> badCoords.contains(pc) }) {
@@ -57,6 +60,7 @@ class Solver(filePath: String) {
     fun coordIsGreen(coord: Coord): Boolean {
         if (coordIsInGreenLine(coord)) return true
         val enclosedBelow = (coord.y downTo minPossibleGreenY).shuffled().any { coordIsInGreenLine(Coord(coord.x, it)) }
+        println("${coord.y} $minPossibleGreenY")
         val enclosedAbove = (coord.y..maxPossibleGreenY).shuffled().any { coordIsInGreenLine(Coord(coord.x, it)) }
         val enclosedRight = (coord.x downTo minPossibleGreenX).shuffled().any { coordIsInGreenLine(Coord(it, coord.y)) }
         val enclosedLeft = (coord.x..maxPossibleGreenX).shuffled().any { coordIsInGreenLine(Coord(it, coord.y)) }
