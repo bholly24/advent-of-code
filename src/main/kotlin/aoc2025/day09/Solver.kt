@@ -32,6 +32,7 @@ class Solver(filePath: String) {
 
     // Too high 4604141472
     fun partB(): Long {
+        val badCoords = mutableListOf<Coord>()
         partA()
         val sor = possibleAreas.sortedByDescending { it.second }
         var checked = 0
@@ -39,9 +40,14 @@ class Solver(filePath: String) {
             .first {
                 val per = getCoordPerimeter(it.first.first, it.first.second)
                 println(checked++)
-                per.all { c ->
-                    val s = coordIsGreen(c)
-                    s
+                if (per.any { pc -> badCoords.contains(pc) }) {
+                    false
+                } else {
+                    per.all { c ->
+                        val s = coordIsGreen(c)
+                        if (!s) badCoords.add(c)
+                        s
+                    }
                 }
             }
 
