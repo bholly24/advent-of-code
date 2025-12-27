@@ -32,7 +32,8 @@ class SolverTest {
 
     @Test
     fun puzzleB() {
-        logAndAssertEquals(1, puzzleSolver::partB)
+        logAndAssertEquals(8199963486, puzzleSolver::partB)
     }
+    //Too low: 923223020
 }
 
